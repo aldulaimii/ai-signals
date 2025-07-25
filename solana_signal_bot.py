@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 # ----------- إعدادات التليجرام -----------
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or '7785345671:AAGgrahzEQbZV3WqYQaadWn6ID8KJP5skd8'
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or '7785345671:AAGq2c6n_8CDtm3PJc1k8LotpRIW8KKRSYY'
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID') or '@testGPT11'
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
