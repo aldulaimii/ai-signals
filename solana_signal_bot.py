@@ -1,5 +1,6 @@
 import requests
 import time
+import asyncio
 from telegram import Bot
 from telegram.error import TelegramError
 from textblob import TextBlob
@@ -222,11 +223,13 @@ def main_loop():
 
         time.sleep(60)
 
-if __name__ == '__main__':
+async def send_test_message():
     try:
-        bot.send_message(chat_id=TELEGRAM_CHANNEL_ID, text="🚀 بوت التوصيات يعمل بنجاح!")
+        await bot.send_message(chat_id=TELEGRAM_CHANNEL_ID, text="🚀 بوت التوصيات يعمل بنجاح!")
         print("تم إرسال رسالة اختبارية بنجاح.")
     except Exception as e:
         print(f"فشل إرسال رسالة الاختبار: {e}")
 
+if __name__ == '__main__':
+    asyncio.run(send_test_message())
     main_loop()
