@@ -1,6 +1,7 @@
 import requests
 import time
 from telegram import Bot
+from telegram.error import TelegramError
 from textblob import TextBlob
 import tweepy
 import numpy as np
@@ -133,19 +134,21 @@ def send_signal(token):
         msg += f"📉 تغير سعر فجائي: {'نعم ⚠️' if token['price_spike'] else 'لا'}\n"
         msg += f"💬 تقييم المشاعر: {token['sentiment']:.2f}\n"
         bot.send_message(chat_id=TELEGRAM_CHANNEL_ID, text=msg, parse_mode="Markdown")
-        print(f"Sent signal for {token['symbol']}")
+        print(f"📨 Sent signal for {token['symbol']}")
+    except TelegramError as e:
+        print(f"❌ Failed to send signal for {token['symbol']}: {e}")
     except Exception as e:
-        print(f"Failed to send signal for {token['symbol']}: {e}")
+        print(f"❌ Unexpected error sending signal for {token['symbol']}: {e}")
 
 def main_loop():
-    print("Starting main loop...")
+    print("🚀 Starting main loop...")
     while True:
         try:
             response = requests.get(BIRDEYE_API)
             tokens = response.json().get("data", [])
-            print(f"Fetched {len(tokens)} tokens")
+            print(f"🔄 Fetched {len(tokens)} tokens")
             if not tokens:
-                print("No tokens found, sleeping...")
+                print("⚠️ No tokens found, sleeping for 60 seconds...")
                 time.sleep(60)
                 continue
 
@@ -156,42 +159,42 @@ def main_loop():
                 price = float(token.get("price", 0))
                 ath = float(token.get("ath_price", 0))
 
-                print(f"Processing token: {symbol}, price: {price}")
+                print(f"⏳ Processing token: {symbol}, price: {price}")
 
                 if not name or not address or price <= 0:
-                    print("Invalid token data, skipping.")
+                    print("⚠️ Invalid token data, skipping.")
                     continue
 
                 if not is_halal(name):
-                    print(f"Token {name} filtered by halal check")
+                    print(f"⛔ Token {name} filtered by halal check")
                     continue
 
                 if not is_verified_contract(token):
-                    print(f"Token {symbol} contract not verified")
+                    print(f"⛔ Token {symbol} contract not verified")
                     continue
 
                 if ath <= price * 3:  # هدف 3x
-                    print(f"Token {symbol} ATH condition not met")
+                    print(f"⛔ Token {symbol} ATH condition not met")
                     continue
 
                 holders_count = get_holders_count(address)
                 if holders_count < 20:
-                    print(f"Token {symbol} holders count too low: {holders_count}")
+                    print(f"⛔ Token {symbol} holders count too low: {holders_count}")
                     continue
 
                 liquidity, volume = get_liquidity_and_volume(address)
                 if liquidity < 2000 or volume < 3000:
-                    print(f"Token {symbol} liquidity/volume too low: {liquidity}/{volume}")
+                    print(f"⛔ Token {symbol} liquidity/volume too low: {liquidity}/{volume}")
                     continue
 
                 candle_green = analyze_candles(address)
                 if not candle_green:
-                    print(f"Token {symbol} candle not green")
+                    print(f"⛔ Token {symbol} candle not green")
                     continue
 
                 holders_behavior = get_top_holders_behavior(address)
                 if not holders_behavior:
-                    print(f"Token {symbol} holders behavior not supportive")
+                    print(f"⛔ Token {symbol} holders behavior not supportive")
                     continue
 
                 price_spike = check_price_spike(symbol, price)
@@ -215,7 +218,7 @@ def main_loop():
                 time.sleep(1)
 
         except Exception as e:
-            print(f"Error in main loop: {e}")
+            print(f"❌ Error in main loop: {e}")
 
         time.sleep(60)
 
