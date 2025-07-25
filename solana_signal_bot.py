@@ -7,25 +7,24 @@ import numpy as np
 import os
 
 # ----------- إعدادات التليجرام -----------
-# من الأفضل وضع هذه القيم كمتغيرات بيئة على Render
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or '7785345671:AAGgrahzEQbZV3WqYQaadWn6ID8KJP5skd8'
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID') or '@testGPT11'
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 # ----------- إعدادات تويتر -----------
-# استبدلها بالقيم الحقيقية أو متغيرات البيئة
-TWITTER_API_KEY = os.getenv('TWITTER_API_KEY') or "your_api_key"
-TWITTER_API_SECRET = os.getenv('TWITTER_API_SECRET') or "your_api_secret"
-TWITTER_ACCESS_TOKEN = os.getenv('TWITTER_ACCESS_TOKEN') or "your_access_token"
-TWITTER_ACCESS_SECRET = os.getenv('TWITTER_ACCESS_SECRET') or "your_access_secret"
+TWITTER_API_KEY = os.getenv('TWITTER_API_KEY') or ""
+TWITTER_API_SECRET = os.getenv('TWITTER_API_SECRET') or ""
+TWITTER_ACCESS_TOKEN = os.getenv('TWITTER_ACCESS_TOKEN') or ""
+TWITTER_ACCESS_SECRET = os.getenv('TWITTER_ACCESS_SECRET') or ""
 
-auth = tweepy.OAuth1UserHandler(TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
-api = tweepy.API(auth)
+if TWITTER_API_KEY and TWITTER_API_SECRET and TWITTER_ACCESS_TOKEN and TWITTER_ACCESS_SECRET:
+    auth = tweepy.OAuth1UserHandler(TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+    api = tweepy.API(auth)
+else:
+    api = None  # لا يوجد تويتر، تجاوز التحليل
 
 # ----------- كلمات ممنوعة شرعية -----------
-# كما في سكربتك
-
 HARAM_KEYWORDS = [
     "beer", "wine", "vodka", "alcohol", "casino", "gambling", "sex", "porno",
     "xxx", "lgbt", "usury", "interest", "bank", "loan", "cum", "tits", "strip",
@@ -90,6 +89,8 @@ def get_top_holders_behavior(address):
     return True
 
 def get_twitter_sentiment(token_symbol):
+    if not api:
+        return 0  # لا يوجد تحليل تويتر
     try:
         tweets = api.search_tweets(q=token_symbol, lang="en", count=50)
         sentiments = []
