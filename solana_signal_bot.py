@@ -223,4 +223,10 @@ def main_loop():
         time.sleep(60)
 
 if __name__ == '__main__':
+    try:
+        bot.send_message(chat_id=TELEGRAM_CHANNEL_ID, text="🚀 بوت التوصيات يعمل بنجاح!")
+        print("تم إرسال رسالة اختبارية بنجاح.")
+    except Exception as e:
+        print(f"فشل إرسال رسالة الاختبار: {e}")
+
     main_loop()
