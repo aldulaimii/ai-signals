@@ -7,14 +7,14 @@ import numpy as np
 import os
 
 # ----------- إعدادات التليجرام -----------
-// من الأفضل وضع هذه القيم كمتغيرات بيئة على Render
+# من الأفضل وضع هذه القيم كمتغيرات بيئة على Render
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') or '7785345671:AAGgrahzEQbZV3WqYQaadWn6ID8KJP5skd8'
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID') or '@testGPT11'
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 # ----------- إعدادات تويتر -----------
-// استبدلها بالقيم الحقيقية أو متغيرات البيئة
+# استبدلها بالقيم الحقيقية أو متغيرات البيئة
 TWITTER_API_KEY = os.getenv('TWITTER_API_KEY') or "your_api_key"
 TWITTER_API_SECRET = os.getenv('TWITTER_API_SECRET') or "your_api_secret"
 TWITTER_ACCESS_TOKEN = os.getenv('TWITTER_ACCESS_TOKEN') or "your_access_token"
@@ -24,7 +24,7 @@ auth = tweepy.OAuth1UserHandler(TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACC
 api = tweepy.API(auth)
 
 # ----------- كلمات ممنوعة شرعية -----------
-// كما في سكربتك
+# كما في سكربتك
 
 HARAM_KEYWORDS = [
     "beer", "wine", "vodka", "alcohol", "casino", "gambling", "sex", "porno",
