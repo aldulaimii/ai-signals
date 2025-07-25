@@ -6,8 +6,8 @@ import tweepy
 import numpy as np
 
 # ----------- إعدادات التليجرام -----------
-TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
-TELEGRAM_CHANNEL_ID = "@your_channel"
+TELEGRAM_BOT_TOKEN = '7785345671:AAGgrahzEQbZV3WqYQaadWn6ID8KJP5skd8'
+TELEGRAM_CHANNEL_ID = '@testGPT11'
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 # ----------- إعدادات تويتر -----------
